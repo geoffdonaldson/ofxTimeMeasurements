@@ -15,7 +15,10 @@ ofxTimeMeasurements* ofxTimeMeasurements::singleton = NULL;
 ofxTimeMeasurements::ofxTimeMeasurements(){
 	desiredFrameRate = 60.0f;
 	enabled = true;
-	timeAveragePercent = 0.1; 
+	timeAveragePercent = 0.1;
+    frameNum = 0;
+    runningFrameRate = 0.0f;
+    avgFps = 0.0f;
 }
 
 ofxTimeMeasurements* ofxTimeMeasurements::instance(){	
@@ -130,6 +133,10 @@ void ofxTimeMeasurements::draw(float x, float y){
 	sprintf(msg, " App fps %*.1f (%*.1f%% busy)", 4, ofGetFrameRate(), 3, percentTotal );
 	c++;
 	ofDrawBitmapString( msg, x, y + c * TIME_MEASUREMENTS_LINE_HEIGHT );
+    
+    sprintf(msg, " Avg fps when streaming: %*.2f", 4, avgFps);
+    c++;
+    ofDrawBitmapString(msg, x, y + c * TIME_MEASUREMENTS_LINE_HEIGHT);
 	
 	if ( missingFrames ) {
 		ofPopStyle();

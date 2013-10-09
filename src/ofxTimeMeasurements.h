@@ -19,6 +19,7 @@
 #define TIME_SAMPLE_START(x)			(ofxTimeMeasurements::instance()->startMeasuring(x))
 #define TIME_SAMPLE_STOP(x)				(ofxTimeMeasurements::instance()->stopMeasuring(x))
 #define TIME_SAMPLE_DRAW(x,y)			(ofxTimeMeasurements::instance()->draw(x,y))
+#define TIME_SAMPLE_SET_AVG_FPS(x)      (ofxTimeMeasurements::instance()->setAvgFps(x))
 #define TIME_SAMPLE_DRAW_TOP_LEFT()		(ofxTimeMeasurements::instance()->draw(0,0))
 #define TIME_SAMPLE_DRAW_TOP_RIGHT()	(ofxTimeMeasurements::instance()->draw( ofGetWidth() - ofxTimeMeasurements::instance()->getWidth(),0))
 #define TIME_SAMPLE_DRAW_BOTTOM_LEFT()	(ofxTimeMeasurements::instance()->draw(0,ofGetHeight() - ofxTimeMeasurements::instance()->getHeight()))
@@ -43,6 +44,7 @@ class ofxTimeMeasurements: public ofBaseDraws {
 											 //if set to 0.1, a new sample contributes 10% to the average
 		unsigned long durationForID( string ID);
 	
+        void setAvgFps(float fps) { avgFps = fps; }
 		void draw(float x, float y);
 		void draw(float x, float y, float w , float h){ draw(x,y); } //w and h ignored! just here to comply with ofBaseDraws
 		virtual float getWidth(){ return ((string)(TIME_SAMPLE_SEPARATOR)).length() * 8; }
@@ -68,6 +70,8 @@ class ofxTimeMeasurements: public ofBaseDraws {
 		map<string, TimeMeasurement> times;
 		map<int, string> keyOrder;
 		float timeAveragePercent;
-
+        int frameNum;
+        float runningFrameRate;
+        float avgFps;
 };
 
